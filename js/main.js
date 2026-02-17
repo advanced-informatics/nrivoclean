@@ -82,13 +82,11 @@ function initContactForm() {
         body: formData,
         headers: { 'Accept': 'application/json' }
       }).then(function (response) {
-        const successMessage = document.querySelector('.form-success');
         if (response.ok) {
-          if (successMessage) successMessage.classList.add('show');
-          form.reset();
-          setTimeout(function () {
-            if (successMessage) successMessage.classList.remove('show');
-          }, 5000);
+          var formContainer = form.closest('.contact-form');
+          if (formContainer) {
+            formContainer.innerHTML = '<div class="form-success show">Thank you! Your message has been sent. Our team will be in touch soon.</div>';
+          }
         } else {
           alert('Something went wrong. Please call us on 07815 070095 instead.');
         }

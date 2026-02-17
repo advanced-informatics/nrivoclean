@@ -500,7 +500,11 @@ section {
 }
 
 .form-success.show {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  font-size: 1.15rem;
 }
 
 /* ===== Footer ===== */
