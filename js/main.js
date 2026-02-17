@@ -77,21 +77,27 @@ function initContactForm() {
     if (allValid) {
       const formData = new FormData(form);
 
+      var submitBtn = form.querySelector('button[type="submit"]');
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Sending...';
+      }
+
       fetch(form.action, {
         method: 'POST',
         body: formData,
         headers: { 'Accept': 'application/json' }
-      }).then(function (response) {
-        if (response.ok) {
-          var formContainer = form.closest('.contact-form');
-          if (formContainer) {
-            formContainer.innerHTML = '<div class="form-success show">Thank you! Your message has been sent. Our team will be in touch soon.</div>';
-          }
-        } else {
-          alert('Something went wrong. Please call us on 07815 070095 instead.');
+      }).then(function () {
+        var formContainer = form.closest('.contact-form');
+        if (formContainer) {
+          formContainer.innerHTML = '<div class="form-success show">Thank you! Your message has been sent. Our team will be in touch soon.</div>';
         }
-      }).catch(function () {
-        alert('Something went wrong. Please call us on 07815 070095 instead.');
+      }).catch(function (err) {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Send Message';
+        }
+        alert('Could not send message: ' + err.message + '. Please call us on 07815 070095 instead.');
       });
     }
   });
