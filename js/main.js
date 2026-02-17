@@ -75,17 +75,26 @@ function initContactForm() {
     });
 
     if (allValid) {
-      const successMessage = document.querySelector('.form-success');
-      if (successMessage) {
-        successMessage.classList.add('show');
-      }
-      form.reset();
+      const formData = new FormData(form);
 
-      setTimeout(function () {
-        if (successMessage) {
-          successMessage.classList.remove('show');
+      fetch(form.action, {
+        method: 'POST',
+        body: formData,
+        headers: { 'Accept': 'application/json' }
+      }).then(function (response) {
+        const successMessage = document.querySelector('.form-success');
+        if (response.ok) {
+          if (successMessage) successMessage.classList.add('show');
+          form.reset();
+          setTimeout(function () {
+            if (successMessage) successMessage.classList.remove('show');
+          }, 5000);
+        } else {
+          alert('Something went wrong. Please call us on 07815 070095 instead.');
         }
-      }, 5000);
+      }).catch(function () {
+        alert('Something went wrong. Please call us on 07815 070095 instead.');
+      });
     }
   });
 }
